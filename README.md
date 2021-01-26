@@ -17,19 +17,6 @@
 1. `tsc` 명령어를 통해 컴파일한다.
 1. Live Server 또는 HTTP 서버를 통해 Game.html과 dist 폴더를 호스팅하고, Game.html에 접속한다.
 
-### Example 2, "Judge, That writing was written by cat"
-1. Clone this repository / 해당 저장소를 클론한다.
-1. Create new Script File named `Cat.ts` in `Game/Components` and put this code / `Game/Components` 폴더에 `Cat.ts`라는 코드를 생성하고 아래와 같은 코드를 적는다.
-```typescript
-
-```
-3. Make empty `Game/Game.ts`, and put this code / `Game/Game.ts` 파일의 내용을 비우고 아래와 같은 코드를 적는다.
-```typescript
-
-```
-4. `tsc` 명령어를 통해 컴파일한다.
-5. Live Server 또는 HTTP 서버를 통해 Game.html과 dist 폴더를 호스팅하고, Game.html에 접속한다.
-
 ### Other Examples
 > By Pull-Request, you can upload your own example in here! / PR을 통해 여러분만의 멋진 예제를 올려주세요!
 
