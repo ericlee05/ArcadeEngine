@@ -32,3 +32,8 @@
 
 ### Other Examples
 > By Pull-Request, you can upload your own example in here! / PR을 통해 여러분만의 멋진 예제를 올려주세요!
+
+## Dependencies / Settings
+ * [Typescript(install in Global)](https://www.typescriptlang.org/#installation)
+ * Typescript DOM Supports
+ * ES2015
