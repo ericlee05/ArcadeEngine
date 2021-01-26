@@ -2,15 +2,16 @@ import { ArcadeObject } from "../../Engine/Components/ArcadeObject.js"
 
 let NOTFOUND_ASSET = new Image()
 NOTFOUND_ASSET.src = "./../../../assets/NOTFOUND_ASSET.svg"
+console.log(NOTFOUND_ASSET.src)
 
 export class ArcadeSprite extends ArcadeObject {
   private Texture:HTMLOrSVGImageElement = NOTFOUND_ASSET
   private x:number 
   private y:number
-  private TextureSizeWidth:number = this.Texture.width as number
-  private TextureSizeHeight:number = this.Texture.height as number
+  private TextureSizeWidth:number = 30
+  private TextureSizeHeight:number = 30
 
-  constructor(x:number | undefined, y:number | undefined, Texture:HTMLOrSVGImageElement | undefined){ 
+  constructor(x:number | undefined = undefined, y:number | undefined = undefined, Texture:HTMLOrSVGImageElement | undefined = undefined){ 
     super() 
     if(Texture != undefined){
       this.Texture = Texture
@@ -44,13 +45,13 @@ export class ArcadeSprite extends ArcadeObject {
       
     }*/
 
-    ctx.drawImage(this.Texture, this.x, this.y)
+    ctx.drawImage(this.Texture, this.x, this.y, this.TextureSizeWidth, this.TextureSizeHeight)
     ctx.closePath()
 
     this.lastMills = Date.now()
   }
 
-  moveTo(x:number, y:number, options:ArcadeSpriteOptions | undefined) {
+  moveTo(x:number, y:number, options:ArcadeSpriteOptions | undefined = undefined) {
     if(options == undefined){
       this.x = x
       this.y = y
@@ -61,8 +62,10 @@ export class ArcadeSprite extends ArcadeObject {
     }
   }
 
-  setTexture(texture:HTMLOrSVGImageElement){
+  setTexture(texture:HTMLOrSVGImageElement, width?:number, height?:number){
     this.Texture = texture
+    this.TextureSizeWidth = width || texture.width as number
+    this.TextureSizeHeight = height || texture.height as number
   }
 
 }
