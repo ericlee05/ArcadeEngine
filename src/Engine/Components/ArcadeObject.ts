@@ -1,5 +1,7 @@
 export class ArcadeObject{
 
+  constructor(){}
+
   onStart(ctx:CanvasRenderingContext2D){}
   onDestroy(){}
 

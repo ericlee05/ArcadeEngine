@@ -1,19 +1,13 @@
-import { ArcadeObject } from "../../Engine/Components/ArcadeObject.js"
+import { ArcadeMover } from "../../Engine/Components/ArcadeMover.js"
 
-export class HelloObject extends ArcadeObject {
+export class HelloObject extends ArcadeMover {
   offsetX = 0
   offsetY = 0
-
-  currentX = -170
-  currentY = -170
   
   constructor(offsetX?: number, offsetY?: number) { 
     super() 
     this.offsetX = offsetX || 0
     this.offsetY = offsetY || 0
-
-    this.currentX += offsetX || 0
-    this.currentY += offsetY || 0
   }
 
   getRandomColor() {
@@ -30,35 +24,40 @@ export class HelloObject extends ArcadeObject {
   onStart(ctx:CanvasRenderingContext2D) {
     console.log("Hello Object is started!")
     this.ctx = ctx
+    super.moveTo(this.offsetX, this.offsetY, 0)
   }
 
-  readonly speed = 50 //1초 당 움직이는 픽셀
-  lastMills = Date.now()
   color = "#0095DD"
+  isBacking = false
 
-  render(ctx: CanvasRenderingContext2D) {
-    console.log("Drawing new..")
+  update(ctx: CanvasRenderingContext2D, x:number, y:number) {
+    const margin = 120
+    const xMax = this.ctx!.canvas.width + margin + this.offsetX
+    const yMax = this.ctx!.canvas.height + margin + this.offsetY
 
-    const xMax = this.ctx!.canvas.width + 100 + this.offsetX
-    const yMax = this.ctx!.canvas.height + 100 + this.offsetY
+    //처음으로 돌아왔다면
+    if(x <= this.offsetX || y <= this.offsetY){
+      this.isBacking = false
+      this.color = this.getRandomColor()
+      super.moveTo(xMax, yMax, 10000);
+    }
+  
+    if(xMax <= x || yMax <= y){
+      console.log("Back!")
+      if(!this.isBacking){this.color = this.getRandomColor()}
+      this.isBacking = true
+      super.moveTo(this.offsetX - 20, this.offsetY - 20, 0);
+    }
 
     ctx.beginPath();
     //ctx.arc(x - Math.random() * 5, y - Math.random() * 5, 60, 0, Math.PI * 2);
-    if(xMax < this.currentX || yMax < this.currentY){this.currentX = -170 + this.offsetX; this.currentY = -170 + this.offsetY;this.color = this.getRandomColor()}
 
-    const timeMills = Date.now() - this.lastMills //지난 시간
-    const movedPixels = (timeMills / 1000) * this.speed
-    //console.log(`${movedPixels}만큼 이동`)
-    this.currentX += movedPixels;
-    this.currentY += movedPixels;
-
-    ctx.arc(this.currentX, this.currentY, 60, 0, Math.PI * 2);
+    ctx.arc(x, y, 60, 0, Math.PI * 2);
     ctx.fillStyle = this.color
     ctx.fill();
     ctx.closePath();
 
 
-    this.lastMills = Date.now()
   }
 
 }
