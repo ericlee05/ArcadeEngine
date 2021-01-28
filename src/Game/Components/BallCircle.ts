@@ -1,6 +1,6 @@
 import { ArcadeMover } from "../../Engine/Components/ArcadeMover.js"
 
-export class HelloObject extends ArcadeMover {
+export class BallCircle extends ArcadeMover {
   offsetX = 0
   offsetY = 0
   
@@ -20,6 +20,7 @@ export class HelloObject extends ArcadeMover {
   }
 
   ctx:CanvasRenderingContext2D | undefined
+  readonly ballSize = 60
 
   onStart(ctx:CanvasRenderingContext2D) {
     console.log("Hello Object is started!")
@@ -43,7 +44,7 @@ export class HelloObject extends ArcadeMover {
     }
   
     if(xMax <= x || yMax <= y){
-      console.log("Back!")
+      //console.log("Back!")
       if(!this.isBacking){this.color = this.getRandomColor()}
       this.isBacking = true
       super.moveTo(this.offsetX - 20, this.offsetY - 20, 0);
@@ -52,7 +53,7 @@ export class HelloObject extends ArcadeMover {
     ctx.beginPath();
     //ctx.arc(x - Math.random() * 5, y - Math.random() * 5, 60, 0, Math.PI * 2);
 
-    ctx.arc(x, y, 60, 0, Math.PI * 2);
+    ctx.arc(x, y, this.ballSize, 0, Math.PI * 2);
     ctx.fillStyle = this.color
     ctx.fill();
     ctx.closePath();

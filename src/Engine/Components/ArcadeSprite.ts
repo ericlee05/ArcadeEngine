@@ -1,13 +1,13 @@
 import { ArcadeObject } from "../../Engine/Components/ArcadeObject.js"
+import { Vector2 } from "../Vector2.js"
+import { ArcadeMover } from "./ArcadeMover.js"
 
 let NOTFOUND_ASSET = new Image()
 NOTFOUND_ASSET.src = "./../../../assets/NOTFOUND_ASSET.svg"
 console.log(NOTFOUND_ASSET.src)
 
-export class ArcadeSprite extends ArcadeObject {
+export class ArcadeSprite extends ArcadeMover {
   private Texture:HTMLOrSVGImageElement = NOTFOUND_ASSET
-  private x:number 
-  private y:number
   private TextureSizeWidth:number = 30
   private TextureSizeHeight:number = 30
 
@@ -19,8 +19,7 @@ export class ArcadeSprite extends ArcadeObject {
       this.TextureSizeHeight = this.Texture.height as number
     }
 
-    this.x = x || (0 + this.TextureSizeWidth)
-    this.y = y || (0 + this.TextureSizeHeight)
+    this.Vector = new Vector2(x || (0 + this.TextureSizeWidth), y || (0 + this.TextureSizeHeight))
   }
 
   ctx:CanvasRenderingContext2D | undefined
@@ -28,13 +27,8 @@ export class ArcadeSprite extends ArcadeObject {
   onStart(ctx:CanvasRenderingContext2D) {
     this.ctx = ctx
   }
-
-  private isMoving:boolean = false
-  private lastMills:number = Date.now()
-  private speed:number = 0
-  private moveTarget:SpritePoint = {x:-1, y:-1}
   
-  render(ctx: CanvasRenderingContext2D) {
+  update(ctx: CanvasRenderingContext2D, DrawX:number, DrawY:number) {
     ctx.beginPath()
     /*if(this.isMoving){
       const timeMills = Date.now() - this.lastMills //지난 시간
@@ -45,21 +39,8 @@ export class ArcadeSprite extends ArcadeObject {
       
     }*/
 
-    ctx.drawImage(this.Texture, this.x, this.y, this.TextureSizeWidth, this.TextureSizeHeight)
+    ctx.drawImage(this.Texture, DrawX, DrawY, this.TextureSizeWidth, this.TextureSizeHeight)
     ctx.closePath()
-
-    this.lastMills = Date.now()
-  }
-
-  moveTo(x:number, y:number, options:ArcadeSpriteOptions | undefined = undefined) {
-    if(options == undefined){
-      this.x = x
-      this.y = y
-    }else{
-      this.isMoving = true
-      this.speed = options.speed
-      this.moveTarget = {x, y}
-    }
   }
 
   setTexture(texture:HTMLOrSVGImageElement, width?:number, height?:number){
@@ -68,12 +49,11 @@ export class ArcadeSprite extends ArcadeObject {
     this.TextureSizeHeight = height || texture.height as number
   }
 
-}
+  getTextureSize():{width:number, height:number}{
+    return {width:this.TextureSizeWidth, height:this.TextureSizeHeight}
+  }
 
-interface SpritePoint{
-  x:number, y:number
 }
-
 
 export interface ArcadeSpriteOptions{
   speed:number

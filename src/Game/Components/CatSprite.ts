@@ -1,6 +1,6 @@
 import { ArcadeSprite } from "../../Engine/Components/ArcadeSprite.js";
 
-export class HelloSprite extends ArcadeSprite {
+export class CatSprite extends ArcadeSprite {
   constructor() { super() }
 
   onStart(){
