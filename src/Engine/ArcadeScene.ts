@@ -17,8 +17,9 @@ export class ArcadeScene{
   render(ctx:CanvasRenderingContext2D){
     this.ctx = ctx
     this.counter++
+    if(this.counter == 1){this.onStart()}
     this.objects.forEach(ObjectItem => {
-      if(this.counter == 1){this.onStart();ObjectItem.onStart(ctx)}
+      if(this.counter == 1){ObjectItem.onStart(ctx)}
       ObjectItem.render(ctx)
     })
   }
