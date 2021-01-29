@@ -16,6 +16,10 @@ export class ArcadeMover extends ArcadeObject {
 
   //ArcadeMover를 상속받은 클래스에서는 update함수만 사용할 것!
   render(ctx: CanvasRenderingContext2D){
+    if(this.VectorQueue.length >= 100){ //Vector Queue가 100개 이상 있다면
+      this.VectorQueue = this.VectorQueue.filter(Item => Date.now() <= Item.startAt + Item.duration) //끝나는 시간이 아직 안된 Queue만 가져오기
+    }
+
     const timeMills = Date.now() - this.lastMills //이전 프레임을 완료하는데 걸린 시간
     this.deltaTime = timeMills
 
